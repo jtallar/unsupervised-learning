@@ -4,9 +4,11 @@
 ## Requerimientos
 Para correr el solver, es necesario tener instalado `Python 3`.
 
-Además, debe instalarse `matplotlib`, lo cual se puede lograr con
+Además, deben instalarse `matplotlib`, `sklearn` y `pandas`, lo cual se puede lograr con
 
-`python3 -m pip install matplotlib`
+- `python3 -m pip install matplotlib`
+- `python3 -m pip install sklearn`
+- `python3 -m pip install pandas`
 
 ### Versiones
 Para el desarrollo, se utilizó la versión `Python 3.8.5`

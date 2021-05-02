@@ -35,27 +35,34 @@ x_scaled = StdScal().fit_transform(x)
 pca = PCA()
 x_pca = pca.fit_transform(x_scaled)
 
-# Print first component
+# Get first two principal components
 first_cmp = x_pca[:, 0]
 second_cmp = x_pca[:, 1]
-
-print("First component")
-for country, pc1 in zip(y, first_cmp):
-    print(f'{country}: {pc1}')
-
-fig, ax = plt.subplots(figsize=(12, 10))
-ax.barh(y, first_cmp)
-plt.grid()
-plt.show(block=False)
 
 # Save variance ratio for each components
 exp_variance = pca.explained_variance_ratio_
 
 # Save PCA components
 components = pca.components_
-print("\nLoads 1 for each Xi")
+
+################ PRINTING RESULTS ################
+
+print("First principal component")
+for country, pc1 in zip(y, first_cmp):
+    print(f'{country}: {pc1}')
+
+print("Second principal component")
+for country, pc2 in zip(y, second_cmp):
+    print(f'{country}: {pc2}')
+
+print("\nLoads 1 (component 1) for each Xi")
 # Print PC1 loads
 for h, load in zip(headers[1:], components[0]):
+    print(f'{h}: {load}')
+
+print("\nLoads 2 (component 2) for each Xi")
+# Print PC1 loads
+for h, load in zip(headers[1:], components[1]):
     print(f'{h}: {load}')
 
 print("\nVariance ratio", exp_variance)
@@ -86,18 +93,23 @@ def myplot(fc, sc,coeff,var_labels,val_labels):
     plt.grid()
     plt.show(block=False)
 
+################ PLOTTING RESULTS ################
+
 if plot_boolean:
     # Plots
     utils.init_plotter()
 
     # Boxplot values from different variables to view each variance
-    utils.plot_boxplot(x, headers[1:])
+    utils.plot_boxplot(x, headers[1:], 'x values')
 
     # Boxplot values from different scaled variables to view each variance
-    utils.plot_boxplot(x_scaled, headers[1:])
+    utils.plot_boxplot(x_scaled, headers[1:], 'scaled x values')
 
     # Plot accumulated variance with n components
     utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
+
+    # Plot horizontal bars with PC1 for each country
+    utils.plot_horiz_bar(y, first_cmp, 'PC1')
 
     myplot(first_cmp, second_cmp, np.transpose(components[0:2, :]), headers[1:], y)
 

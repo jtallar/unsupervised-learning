@@ -48,9 +48,10 @@ class MathTextSciFormatter(mticker.Formatter):
 def init_plotter():
     plt.rcParams.update({'font.size': 20})
 
-def plot_boxplot(values, labels, save_name=None):
+def plot_boxplot(values, labels, y_label, save_name=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
     ax.boxplot(values)
+    ax.set_ylabel(y_label)
     plt.xticks(range(1, values.shape[1] + 1), labels)
     
     plt.grid()
@@ -59,6 +60,19 @@ def plot_boxplot(values, labels, save_name=None):
         plt.savefig(save_name)
     else:
         plt.show(block=False)
+
+def plot_horiz_bar(labels, values, x_label, save_name=None):
+    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
+    ax.barh(labels, values)
+    ax.set_xlabel(x_label)
+    
+    plt.grid()
+    plt.tight_layout()
+    if save_name:
+        plt.savefig(save_name)
+    else:
+        plt.show(block=False)
+
 
 def plot_mult_histogram_density(values_1, values_2, n_bins, x_label, y_label, precision=2, sci_x=False, sci_y=True):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.

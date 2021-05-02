@@ -2,10 +2,13 @@ import json
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler as StdScal
-import numpy as np # linear algebra
+import numpy as np
 import matplotlib.pyplot as plt
 
 import utils
+
+# Link with some code references
+# https://www.aprendemachinelearning.com/comprende-principal-component-analysis/
 
 # Del conjunto de datos europe.csv ...
 # - Calcular las componentes principales.

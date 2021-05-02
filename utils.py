@@ -73,6 +73,38 @@ def plot_horiz_bar(labels, values, x_label, save_name=None):
     else:
         plt.show(block=False)
 
+def plot_two_components(pca_1, pca_2, comp_1, comp_2, var_labels, val_labels, scale=True, save_name=None):
+    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
+
+    # Scale values if needed
+    scale_x, scale_y = 1.0, 1.0
+    if scale:
+        scale_x = 1.0 / (pca_1.max() - pca_1.min())
+        scale_y = 1.0 / (pca_2.max() - pca_2.min())
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(-1, 1)
+
+    # Plot values
+    ax.scatter(pca_1 * scale_x, pca_2 * scale_y)
+
+    # Annotate values with value labels
+    for i in range(len(pca_1)):
+        ax.annotate(val_labels[i], (pca_1[i] * scale_x, pca_2[i] * scale_y), fontsize=10)
+    
+    # Plot variable arrows with variable labels
+    for i in range(len(comp_1)):
+        ax.arrow(0, 0, comp_1[i], comp_2[i], color='purple', alpha=0.5)
+        ax.text(comp_1[i] * 1.12, comp_2[i] * 1.12, var_labels[i], color='orange', ha='center', va='center', fontsize=15)
+    
+    ax.set_xlabel("PC1")
+    ax.set_ylabel("PC2")
+    
+    plt.grid()
+    plt.tight_layout()
+    if save_name:
+        plt.savefig(save_name)
+    else:
+        plt.show(block=False)
 
 def plot_mult_histogram_density(values_1, values_2, n_bins, x_label, y_label, precision=2, sci_x=False, sci_y=True):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.

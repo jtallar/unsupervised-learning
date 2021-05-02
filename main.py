@@ -36,8 +36,8 @@ pca = PCA()
 x_pca = pca.fit_transform(x_scaled)
 
 # Get first two principal components
-first_cmp = x_pca[:, 0]
-second_cmp = x_pca[:, 1]
+pc1 = x_pca[:, 0]
+pc2 = x_pca[:, 1]
 
 # Save variance ratio for each components
 exp_variance = pca.explained_variance_ratio_
@@ -48,12 +48,12 @@ components = pca.components_
 ################ PRINTING RESULTS ################
 
 print("First principal component")
-for country, pc1 in zip(y, first_cmp):
-    print(f'{country}: {pc1}')
+for country, val in zip(y, pc1):
+    print(f'{country}: {val}')
 
 print("Second principal component")
-for country, pc2 in zip(y, second_cmp):
-    print(f'{country}: {pc2}')
+for country, val in zip(y, pc2):
+    print(f'{country}: {val}')
 
 print("\nLoads 1 (component 1) for each Xi")
 # Print PC1 loads
@@ -71,28 +71,6 @@ print("\nLoads for all components")
 for i, eigenvector in enumerate(components):
     print(f'Loads {i + 1}: \n\t{eigenvector}')
 
-
-def myplot(fc, sc,coeff,var_labels,val_labels):
-    fig, ax = plt.subplots(figsize=(12, 10))
-    xs = fc
-    ys = sc
-    n = coeff.shape[0]
-    scalex = 1.0/(xs.max() - xs.min())
-    scaley = 1.0/(ys.max() - ys.min())
-    ax.scatter(xs * scalex, ys * scaley)
-    for i in range(len(xs)):
-        ax.annotate(val_labels[i], (xs[i] * scalex, ys[i] * scaley), fontsize=10)
-
-    for i in range(n):
-        ax.arrow(0, 0, coeff[i,0], coeff[i,1],color = 'purple', alpha=0.5)
-        ax.text(coeff[i,0]* 1.15, coeff[i,1] * 1.15, var_labels[i], color = 'orange', ha = 'center', va = 'center', fontsize=15)
-    ax.set_xlim(-1,1)
-    ax.set_ylim(-1,1)
-    ax.set_xlabel("PC{}".format(1))
-    ax.set_ylabel("PC{}".format(2))
-    plt.grid()
-    plt.show(block=False)
-
 ################ PLOTTING RESULTS ################
 
 if plot_boolean:
@@ -109,8 +87,10 @@ if plot_boolean:
     utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
 
     # Plot horizontal bars with PC1 for each country
-    utils.plot_horiz_bar(y, first_cmp, 'PC1')
+    utils.plot_horiz_bar(y, pc1, 'PC1')
 
-    myplot(first_cmp, second_cmp, np.transpose(components[0:2, :]), headers[1:], y)
+    # Plot PC2 = f(PC1)
+    utils.plot_two_components(pc1, pc2, components[0, :], components[1, :], headers[1:], y, scale=True)
+    utils.plot_two_components(pc1, pc2, components[0, :], components[1, :], headers[1:], y, scale=False)
 
     utils.hold_execution()

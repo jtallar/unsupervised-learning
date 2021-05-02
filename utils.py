@@ -48,6 +48,18 @@ class MathTextSciFormatter(mticker.Formatter):
 def init_plotter():
     plt.rcParams.update({'font.size': 20})
 
+def plot_boxplot(values, labels, save_name=None):
+    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
+    ax.boxplot(values)
+    plt.xticks(range(1, values.shape[1] + 1), labels)
+    
+    plt.grid()
+    plt.tight_layout()
+    if save_name:
+        plt.savefig(save_name)
+    else:
+        plt.show(block=False)
+
 def plot_mult_histogram_density(values_1, values_2, n_bins, x_label, y_label, precision=2, sci_x=False, sci_y=True):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
     weights = np.full(len(values_1), 1.0 / len(values_1))
@@ -101,40 +113,6 @@ def plot_histogram_density(values, n_bins, x_label, y_label, precision=2, sci_x=
         plt.tight_layout()
 
     plt.show(block=False)
-
-# Linear regression with b = 0
-def f_adj(x, c):
-    return c * x
-
-def calculate_regression(x_values, y_values, plot_error=False):
-    min_error, min_c = float("Inf"), 10
-    error_list = []
-    c_list = []
-
-    for c in np.arange(-2, 2, 0.0001):
-        error_sum = 0
-        for i in range(0, len(x_values)):
-            error_sum += (y_values[i] - f_adj(x_values[i], c)) ** 2
-        
-        error_list.append(error_sum)
-        c_list.append(c)
-
-        if error_sum < min_error:
-            min_error = error_sum
-            min_c = c
-    
-    if plot_error:
-        # Plot Error = f(c)
-        fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
-        ax.plot(c_list, error_list)
-        ax.set_xlabel('c')
-        ax.set_ylabel('Error')
-
-        plt.grid()
-        plt.tight_layout()
-        plt.show(block=False)
-
-    return min_c, min_error
 
 def plot_values_with_adjust(x_values, x_label, y_values, y_label, precision=2, sci=True, min_val=None, max_val=None, plot=True, save_name=None):
     # adj_coef = np.polyfit(x_values, y_values, 1)
@@ -273,39 +251,3 @@ def plot_error_bars(x_values, x_label, y_values, y_label, y_error, x_prec=2, y_p
 
 def hold_execution():
     plt.show(block=True)
-
-def regression_slope(data):
-    # y = data[i], x = i
-    n = len(data)
-    if n <= 1:
-        return 0
-
-    # Using numpy to multiply arrays
-    x = np.linspace(0, n - 1, num=n)
-    y = np.array(data)
-    
-    sum_x, sum_y = np.sum(x), np.sum(y)
-    sum_xy, sum_xx = np.sum(x * y), np.sum(x * x)
-
-    denominator = n * sum_xx - (sum_x ** 2)
-    if denominator == 0:
-        return 0
-    numerator = n * sum_xy - sum_x * sum_y
-    
-    return numerator / denominator
-
-def check_changes(set_1, set_2):
-    if len(set_1) < len(set_2):
-        small_set = set_1
-        big_set = set_2
-    else:
-        small_set = set_2
-        big_set = set_1
-
-    gen_changes = 0
-    for cell in small_set:
-        if cell not in big_set:
-            gen_changes += 1
-    gen_changes += abs(len(set_1) - len(set_2))
-
-    return gen_changes

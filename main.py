@@ -28,16 +28,8 @@ x = eu.iloc[:,1:].values
 # Take all rows, first col as Y (Countries, dependant value)
 y = eu.iloc[:,0].values
 
-# Boxplot values from different variables to view each variance
-plt.boxplot(x)
-plt.xticks(range(1, x.shape[1] + 1), headers[1:])
-
 # Scale data with media and normalize
 x_scaled = StdScal().fit_transform(x)
-
-# Boxplot values from different variables to view each variance
-plt.boxplot(x_scaled)
-plt.xticks(range(1, x_scaled.shape[1] + 1), headers[1:])
 
 # Apply PCA fitting data and applying the dimensionality reduction
 pca = PCA()
@@ -97,6 +89,12 @@ def myplot(fc, sc,coeff,var_labels,val_labels):
 if plot_boolean:
     # Plots
     utils.init_plotter()
+
+    # Boxplot values from different variables to view each variance
+    utils.plot_boxplot(x, headers[1:])
+
+    # Boxplot values from different scaled variables to view each variance
+    utils.plot_boxplot(x_scaled, headers[1:])
 
     # Plot accumulated variance with n components
     utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)

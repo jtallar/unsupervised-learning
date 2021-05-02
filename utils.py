@@ -78,11 +78,14 @@ def plot_two_components(pca_1, pca_2, comp_1, comp_2, var_labels, val_labels, sc
 
     # Scale values if needed
     scale_x, scale_y = 1.0, 1.0
+    scale_arrows = 1.0
     if scale:
         scale_x = 1.0 / (pca_1.max() - pca_1.min())
         scale_y = 1.0 / (pca_2.max() - pca_2.min())
         ax.set_xlim(-1, 1)
         ax.set_ylim(-1, 1)
+    else:
+        scale_arrows = 3
 
     # Plot values
     ax.scatter(pca_1 * scale_x, pca_2 * scale_y)
@@ -93,8 +96,8 @@ def plot_two_components(pca_1, pca_2, comp_1, comp_2, var_labels, val_labels, sc
     
     # Plot variable arrows with variable labels
     for i in range(len(comp_1)):
-        ax.arrow(0, 0, comp_1[i], comp_2[i], color='purple', alpha=0.5)
-        ax.text(comp_1[i] * 1.12, comp_2[i] * 1.12, var_labels[i], color='orange', ha='center', va='center', fontsize=15)
+        ax.arrow(0, 0, comp_1[i] * scale_arrows, comp_2[i] * scale_arrows, color='purple', alpha=0.5)
+        ax.text(comp_1[i] * scale_arrows * 1.12, comp_2[i] * scale_arrows * 1.12, var_labels[i], color='orange', ha='center', va='center', fontsize=15)
     
     ax.set_xlabel("PC1")
     ax.set_ylabel("PC2")
@@ -228,7 +231,7 @@ def plot_multiple_values(x_values_superlist, x_label, y_values_superlist, y_labe
 
 def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
-    ax.plot(x_values, y_values)  # Plot some data on the axes
+    ax.plot(x_values, y_values, marker='o', markersize=3)  # Plot some data on the axes
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     

@@ -50,7 +50,7 @@ components = pca.components_
 
 ################ PRINTING RESULTS ################
 
-print("First principal component")
+print("First principal component --> If > 0, positive loads are more important here")
 for country, val in zip(y, pc1):
     print(f'{country}: {val}')
 

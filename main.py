@@ -11,12 +11,17 @@ import utils
 # - Calcular las componentes principales.
 # - Interpretar la primera componente.
 # - Realizar el gráfico biplot e interpretarlo.
+
+# Read configuration file
 with open("config.json") as file:
     config = json.load(file)
 
-headers = ['Area', 'GDP', 'Inflation', 'Life.expect', 'Military', 'Pop.growth', 'Unemployment']
+plot_boolean = utils.read_config_param(
+    config, "plot", lambda el : bool(el), lambda el : True)
 
+# Read data_file csv
 eu = pd.read_csv(config["data_file"])
+headers = eu.columns.tolist()
 
 # Take all rows, all cols but 0 as X
 x = eu.iloc[:,1:].values
@@ -25,14 +30,14 @@ y = eu.iloc[:,0].values
 
 # Boxplot values from different variables to view each variance
 plt.boxplot(x)
-plt.xticks(range(1, x.shape[1] + 1), headers)
+plt.xticks(range(1, x.shape[1] + 1), headers[1:])
 
 # Scale data with media and normalize
 x_scaled = StdScal().fit_transform(x)
 
 # Boxplot values from different variables to view each variance
 plt.boxplot(x_scaled)
-plt.xticks(range(1, x_scaled.shape[1] + 1), headers)
+plt.xticks(range(1, x_scaled.shape[1] + 1), headers[1:])
 
 # Apply PCA fitting data and applying the dimensionality reduction
 pca = PCA()
@@ -58,7 +63,7 @@ exp_variance = pca.explained_variance_ratio_
 components = pca.components_
 print("\nLoads 1 for each Xi")
 # Print PC1 loads
-for h, load in zip(headers, components[0]):
+for h, load in zip(headers[1:], components[0]):
     print(f'{h}: {load}')
 
 print("\nVariance ratio", exp_variance)
@@ -89,13 +94,13 @@ def myplot(fc, sc,coeff,var_labels,val_labels):
     plt.grid()
     plt.show(block=False)
 
+if plot_boolean:
+    # Plots
+    utils.init_plotter()
 
-# Plots
-utils.init_plotter()
+    # Plot accumulated variance with n components
+    utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
 
-# Plot accumulated variance with n components
-utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
+    myplot(first_cmp, second_cmp, np.transpose(components[0:2, :]), headers[1:], y)
 
-myplot(first_cmp, second_cmp, np.transpose(components[0:2, :]), headers, y)
-
-utils.hold_execution()
+    utils.hold_execution()

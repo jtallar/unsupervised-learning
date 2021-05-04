@@ -87,7 +87,7 @@ if plot_boolean:
     utils.plot_boxplot(x_scaled, headers[1:], 'scaled x values')
 
     # Plot accumulated variance with n components
-    utils.plot_values(range(len(exp_variance)), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
+    utils.plot_values(range(1, len(exp_variance) + 1), 'number of components', np.cumsum(exp_variance), 'cumulative variance', sci_y=False)
 
     # Plot horizontal bars with PC1 for each country
     utils.plot_horiz_bar(y, pc1, 'PC1')

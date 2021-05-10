@@ -10,8 +10,8 @@ with open("config.json") as file:
     config = json.load(file)
 
 data_filepath: str = config["data_file"]
-eta: float = config["eta"]
-epoch: int = config["epoch"]
+eta: float = config["oja"]["eta"]
+epoch: int = config["oja"]["epoch"]
 
 # read data_file csv
 full_data = pd.read_csv(data_filepath)
@@ -29,6 +29,7 @@ neuron: p.SimplePerceptron = p.SimplePerceptron(eta=eta, w0=w0)
 for _ in range(0, epoch):
     for index in range(0, len(data_scaled)):
         neuron.train(data_scaled[index])
+    neuron.update_w()
 
 # get first component with PCA from neuron
 neuron_pca = neuron.get_normalized_w()

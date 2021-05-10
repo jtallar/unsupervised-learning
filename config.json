@@ -2,16 +2,15 @@
 	"data_file": "europe.csv",
 
 	"oja": {
-		"eta": 0.005,
+		"eta": 0.02,
 		"epoch": 500
 	},
 
 	"kohonen": {
 		"k": 10,
-		"r": 1,
-		"eta": 0.005,
-		"w0_random": false,
-		"kxk_iterations": 500
+		"c": 1.0,
+		"w0_random_init": true,
+		"kxk_iterations": 5
 	},
 
 	"plot": true

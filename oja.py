@@ -5,6 +5,16 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
+
+# accumulation function for oja algorithm
+def accum_function(data: np.ndarray, w: np.ndarray, e: float) -> np.ndarray:
+    # out for this neuron
+    y = np.dot(data, w)
+
+    # calculate the delta w (oja algorithm)
+    return e * y * (data - y * w)
+
+
 # read config file
 with open("config.json") as file:
     config = json.load(file)
@@ -23,12 +33,12 @@ data_scaled = StandardScaler().fit_transform(full_data.iloc[:, 1:].values)
 w0 = np.random.uniform(0.0, 0.2, len(data_scaled[0]))
 
 # initialize neuron
-neuron: p.SimplePerceptron = p.SimplePerceptron(eta=eta, w0=w0)
+neuron: p.SimplePerceptron = p.SimplePerceptron(w0=w0, accum_func=accum_function)
 
 # train neuron
 for _ in range(0, epoch):
-    for index in range(0, len(data_scaled)):
-        neuron.train(data_scaled[index])
+    for _data in data_scaled:
+        neuron.train(_data, eta)
     neuron.update_w()
 
 # get first component with PCA from neuron

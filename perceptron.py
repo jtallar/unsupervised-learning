@@ -3,21 +3,17 @@ import numpy as np
 
 class SimplePerceptron(object):
 
-    def __init__(self, eta: float, w0: np.ndarray):
-        self.eta: float = eta
+    def __init__(self, w0: np.ndarray, accum_func):
         self.w: np.ndarray = w0
         self.acc_w: np.ndarray = np.zeros(len(self.w))
+        self.accum_func = accum_func
 
-    def train(self, data: np.ndarray):
+    def train(self, data: np.ndarray, eta: float):
 
-        # out for this neuron
-        y = np.dot(data, self.w)
 
-        # calculate the delta w (oja algorithm)
-        delta_w = self.eta * y * (data - y * self.w)
 
         # update accumulative w
-        self.acc_w += delta_w
+        self.acc_w += self.accum_func(data, self.w, eta)
 
     def update_w(self):
         self.w += self.acc_w

@@ -1,5 +1,8 @@
 {
 	"data_file": "europe.csv",
+
+	"eta": 0.1,
+	"epoch": 500,
 	
 	"plot": true
 }

@@ -9,9 +9,6 @@ class SimplePerceptron(object):
         self.accum_func = accum_func
 
     def train(self, data: np.ndarray, eta: float):
-
-
-
         # update accumulative w
         self.acc_w += self.accum_func(data, self.w, eta)
 

@@ -16,14 +16,14 @@ epoch: int = config["epoch"]
 # read data_file csv
 full_data = pd.read_csv(data_filepath)
 
-# retrieve headers
-headers = full_data.columns.tolist()
-
 # retrieve numeric values, scale data with media and normalize
 data_scaled = StandardScaler().fit_transform(full_data.iloc[:, 1:].values)
 
+# w0 for neuron initialization
+w0 = np.random.uniform(0.0, 0.2, len(data_scaled[0]))
+
 # initialize neuron
-neuron: p.SimplePerceptron = p.SimplePerceptron(eta=eta, w0=np.random.uniform(0.0, 0.2, len(data_scaled[0])))
+neuron: p.SimplePerceptron = p.SimplePerceptron(eta=eta, w0=w0)
 
 # train neuron
 for _ in range(0, epoch):

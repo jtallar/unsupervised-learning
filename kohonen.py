@@ -1,5 +1,6 @@
 import json
 import random
+import math
 import numpy as np
 import perceptron as p
 import pandas as pd
@@ -65,7 +66,7 @@ def get_neighbour_neuron_indexes(grid_side: int, best: (int, int), radius: float
     neighbours: [(int, int)] = []
     for i in range(0, grid_side):
         for j in range(0, grid_side):
-            if (best[0] - i) ** 2 + (best[1] - j) ** 2 < radius ** 2:
+            if (best[0] - i) ** 2 + (best[1] - j) ** 2 <= radius ** 2:
                 neighbours.append((i, j))
     return neighbours
 
@@ -99,7 +100,7 @@ r: float
 for iteration in range(0, iterations):
     # calculate eta and r
     eta = 1 / (iteration + 1)
-    r = 1 + k * np.e ** (-c * iteration)
+    r = 1 + k * math.exp(-c * iteration)
 
     for _data in data_scaled:
         # get the best neuron position

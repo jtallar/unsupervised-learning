@@ -14,5 +14,10 @@
 		"normalize_data": true
 	},
 
+	"hopfield": {
+		"pattern_dir": "known_patterns",
+		"mutation_prob": 0.1
+	},
+
 	"plot": true
 }

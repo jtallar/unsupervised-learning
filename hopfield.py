@@ -80,7 +80,7 @@ while not algo.is_over() and count < max_iterations:
     count += 1
 
 if count >= max_iterations:
-    print(f'Se ha alcanzado el {utils.string_with_color("límite de iteraciones", RED)}. Saliendo...')
+    print(f'Se ha alcanzado el {utils.string_with_color("límite de iteraciones", RED)} (probablemente por loop). Saliendo...')
     exit()
 
 for i in range(patterns.shape[1]):

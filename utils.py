@@ -20,6 +20,9 @@ def get_color_escape(color_hex, background=False):
     rgb = [int(color_hex[i:i+2], 16) for i in range(1, len(color_hex), 2)]
     return '\033[{};2;{};{};{}m'.format(48 if background else 38, rgb[0], rgb[1], rgb[2])
 
+def string_with_color(string, color_hex):
+    return get_color_escape(color_hex) + string + RESET
+
 def print_with_color(string, color_hex):
     print(get_color_escape(color_hex) + string + RESET)
 

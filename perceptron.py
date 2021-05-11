@@ -27,3 +27,19 @@ class SimplePerceptron(object):
 
     def __repr__(self) -> str:
         return f"SP=(w={self.w})"
+
+
+class HopfieldPerceptron(object):
+
+    def __init__(self, patterns: np.ndarray, query: np.ndarray):
+        self.w = np.dot(patterns, patterns.T) / patterns.shape[0]
+        np.fill_diagonal(self.w, 0)
+        self.s = [query]
+
+    # Finish if last two elements are equal
+    def is_over(self) -> bool:
+        return len(self.s) >= 2 and np.array_equal(self.s[-1], self.s[-2])
+
+    def iterate(self) -> np.ndarray:
+        self.s.append(np.sign(np.dot(self.w, self.s[-1])))
+        return self.s[-1]

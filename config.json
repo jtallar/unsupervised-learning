@@ -16,7 +16,8 @@
 
 	"hopfield": {
 		"pattern_dir": "known_patterns",
-		"mutation_prob": 0.1
+		"mutation_prob": 0.1,
+		"max_iterations": 20
 	},
 
 	"plot": true

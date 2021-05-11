@@ -61,6 +61,30 @@ def plot_boxplot(values, labels, y_label, save_name=None):
     else:
         plt.show(block=False)
 
+def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None):
+    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
+    ax.plot(x_values, y_values, marker='o', markersize=3)  # Plot some data on the axes
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    
+    if min_val is not None and max_val is not None:
+        ax.set_xlim([min_val, max_val])
+        ax.set_ylim([min_val, max_val])
+
+    if sci_x:
+        ax.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+        ax.xaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
+    if sci_y:
+        ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
+        ax.yaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
+
+    plt.grid()
+    plt.tight_layout()
+    if save_name:
+        plt.savefig(save_name)
+    else:
+        plt.show(block=False)
+
 def plot_horiz_bar(labels, values, x_label, save_name=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
     ax.barh(labels, values)
@@ -108,6 +132,19 @@ def plot_two_components(pca_1, pca_2, comp_1, comp_2, var_labels, val_labels, sc
         plt.savefig(save_name)
     else:
         plt.show(block=False)
+
+def plot_matrix(matrix, cmap='inferno', not_exp=False):
+    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
+
+    caxes = ax.matshow(matrix, interpolation='none', cmap=cmap)
+    plt.colorbar(caxes)
+
+    notation = '{:0.1E}' if not_exp else '{:0.1f}'
+    for (i, j), z in np.ndenumerate(matrix):
+        ax.text(j, i, notation.format(z), ha='center', va='center', color='green')
+
+    plt.tight_layout()
+    plt.show(block=False)
 
 def plot_mult_histogram_density(values_1, values_2, n_bins, x_label, y_label, precision=2, sci_x=False, sci_y=True):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
@@ -228,30 +265,6 @@ def plot_multiple_values(x_values_superlist, x_label, y_values_superlist, y_labe
         plt.show(block=False)
 
     return colors
-
-def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None):
-    fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
-    ax.plot(x_values, y_values, marker='o', markersize=3)  # Plot some data on the axes
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
-    
-    if min_val is not None and max_val is not None:
-        ax.set_xlim([min_val, max_val])
-        ax.set_ylim([min_val, max_val])
-
-    if sci_x:
-        ax.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
-        ax.xaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
-    if sci_y:
-        ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
-        ax.yaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
-
-    plt.grid()
-    plt.tight_layout()
-    if save_name:
-        plt.savefig(save_name)
-    else:
-        plt.show(block=False)
 
 def plot_error_bars_summary(x_values, x_label, sum_values, attribute, y_label, x_prec=2, sci_x=False, sci_y=True, y_min=None, y_max=None, log=False, save_name=None):
     values = []

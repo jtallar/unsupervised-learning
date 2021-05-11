@@ -10,7 +10,8 @@
 		"k": 5,
 		"c": 0.001,
 		"w0_random_init": false,
-		"kxk_iterations": 50
+		"kxk_iterations": 50,
+		"normalize_data": true
 	},
 
 	"plot": true

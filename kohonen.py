@@ -9,11 +9,16 @@ from sklearn.preprocessing import StandardScaler
 
 
 # scale data obtained
-def scaled_data(filepath: str):
+def scaled_data(filepath: str, normalize: bool = False):
     # read data_file csv
     full_data = pd.read_csv(filepath)
-    # retrieve numeric values, scale data with media and normalize
-    return full_data.iloc[:, 0].values, StandardScaler().fit_transform(full_data.iloc[:, 1:].values)
+    # retrieve numeric values, scale data with media and stdev
+    std_data = StandardScaler().fit_transform(full_data.iloc[:, 1:].values)
+    # normalize if needed
+    if normalize:
+        std_data = np.divide(std_data, np.linalg.norm(std_data, 2))
+
+    return full_data.iloc[:, 0].values, std_data
 
 
 # w0 for neuron initialization with dataset
@@ -90,11 +95,12 @@ data_filepath: str = config["data_file"]
 k: int = config["kohonen"]["k"]
 c: float = config["kohonen"]["c"]
 is_w0_random_init: bool = config["kohonen"]["w0_random_init"]
+normalize_data: bool = config["kohonen"]["normalize_data"]
 iterations: int = config["kohonen"]["kxk_iterations"] * k * k
 plot_boolean: bool = config["plot"]
 
 # retrieve scaled data
-countries, data_scaled = scaled_data(data_filepath)
+countries, data_scaled = scaled_data(data_filepath, normalize_data)
 
 # initialize grid
 kohonen_grid: [[p.SimplePerceptron]] = init_kohonen_grid(is_w0_random_init, data_scaled)
@@ -118,9 +124,9 @@ for iteration in range(0, iterations):
         for (x, y) in pos_neighbours:
             kohonen_grid[x][y].train(_data, eta)
 
-    # TODO: Check si funca mejor con esto asi o por epoca
-    # update all the w values as the iteration finished
-    update_all_w(kohonen_grid)
+        # TODO: Check si funca mejor con esto asi o por epoca. Segun Juan es asi
+        # update all the w values as the iteration finished
+        update_all_w(kohonen_grid)
 
 # finished training
 
@@ -141,6 +147,7 @@ for country, _data in zip(countries, data_scaled):
 print('Match matrix countries: ')
 print('\n'.join('{}: {}'.format(*k) for k in enumerate(country_list_grid)))
 
+
 # TODO: Check if U matrix uses radius=1 (or final) for node neighbours
 # U matrix 
 u_matrix_grid: [[int]] = np.zeros((k, k), dtype=float)
@@ -159,7 +166,7 @@ for i, row in enumerate(kohonen_grid):
        
 # if plot_boolean is true, generate plots
 if plot_boolean:
-    # Plots
+    # Init plotter
     utils.init_plotter()
 
     # Plot registry count matrix
@@ -168,5 +175,6 @@ if plot_boolean:
     # Plot U Matrix
     utils.plot_matrix(u_matrix_grid, 'gray', not_exp=True)
 
+    # Hold execution to show plots
     utils.hold_execution()
 

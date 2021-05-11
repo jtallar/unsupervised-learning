@@ -7,10 +7,10 @@
 	},
 
 	"kohonen": {
-		"k": 10,
-		"c": 1.0,
-		"w0_random_init": true,
-		"kxk_iterations": 5
+		"k": 5,
+		"c": 0.001,
+		"w0_random_init": false,
+		"kxk_iterations": 50
 	},
 
 	"plot": true

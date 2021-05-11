@@ -20,7 +20,7 @@ class SimplePerceptron(object):
         return self.w
 
     def get_normalized_w(self) -> np.ndarray:
-        return np.divide(self.w, np.sqrt(np.dot(self.w, self.w)))
+        return np.divide(self.w, np.linalg.norm(self.w, 2))
 
     def __str__(self) -> str:
         return f"SP=(w={self.w})"

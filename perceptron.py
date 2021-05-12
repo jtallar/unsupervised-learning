@@ -41,5 +41,6 @@ class HopfieldPerceptron(object):
         return len(self.s) >= 2 and np.array_equal(self.s[-1], self.s[-2])
 
     def iterate(self) -> np.ndarray:
-        self.s.append(np.sign(np.dot(self.w, self.s[-1])))
+        aux: np.ndarray = np.sign(np.dot(self.w, self.s[-1]))
+        self.s.append(aux + (aux == 0) * self.s[-1])
         return self.s[-1]

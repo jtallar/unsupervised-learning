@@ -75,7 +75,7 @@ def get_neighbour_neuron_indexes(grid_side: int, best: (int, int), radius: float
     neighbours: [(int, int)] = []
     for i in range(0, grid_side):
         for j in range(0, grid_side):
-            if (best[0] - i) ** 2 + (best[1] - j) ** 2 <= radius ** 2:
+            if (best[0] - i) ** 2 + (best[1] - j) ** 2 < radius ** 2:
                 neighbours.append((i, j))
     return neighbours
 
@@ -106,12 +106,15 @@ countries, data_scaled = scaled_data(data_filepath, normalize_data)
 kohonen_grid: [[p.SimplePerceptron]] = init_kohonen_grid(is_w0_random_init, data_scaled)
 
 # training iteration
+eta_inicial: float = 0.5
 eta: float
 r: float
 for iteration in range(0, iterations):
     # calculate eta and r
-    eta = 1 / (iteration + 1)
-    r = 1 + k * math.exp(-c * iteration)
+    # eta = 1 / (iteration + 1)
+    eta = (iterations - iteration) * eta_inicial / iterations
+    # r = 1 + k * math.exp(-c * iteration)
+    r = 1 + math.floor((iterations - iteration) * k / iterations) # initial radius is k
 
     for _data in data_scaled:
         # get the best neuron position

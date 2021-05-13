@@ -47,6 +47,7 @@ def get_mutated_pattern(pattern: np.ndarray, pm: float) -> np.ndarray:
 SIDE = 5
 N = SIDE * SIDE
 RED = "#FF0000"
+GREEN = "#00FF00"
 
 # read config file
 with open("config.json") as file:
@@ -72,6 +73,7 @@ query_pattern = get_mutated_pattern(patterns[:, query_num], pm)
 algo: p.HopfieldPerceptron = p.HopfieldPerceptron(patterns, query_pattern)
 
 # Print initial query
+print('------------------')
 print_pattern(query_pattern, SIDE)
 print('------------------')
 
@@ -90,7 +92,7 @@ if count >= max_iterations:
 
 for i in range(patterns.shape[1]):
     if np.array_equal(s, patterns[:, i]):
-        print(f'El estado final {utils.string_with_color("coincide con " + letter_list[i], RED)}. Originalmente era {letter_list[query_num]}.')
+        print(f'El estado final {utils.string_with_color("coincide con " + letter_list[i], GREEN)} ({count} iter). Originalmente era {letter_list[query_num]}.')
         exit()
 
 print(f'El estado final es {utils.string_with_color("espúreo", RED)}. Debería coincidir con {letter_list[query_num]}.')

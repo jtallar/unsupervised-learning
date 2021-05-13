@@ -64,7 +64,7 @@ def plot_boxplot(values, labels, y_label, save_name=None):
     else:
         plt.show(block=False)
 
-def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None):
+def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None, ticks=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
     ax.plot(x_values, y_values, marker='o', markersize=3)  # Plot some data on the axes
     ax.set_xlabel(x_label)
@@ -80,6 +80,9 @@ def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, 
     if sci_y:
         ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
         ax.yaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
+
+    if ticks:
+        plt.xticks(ticks)
 
     plt.grid()
     plt.tight_layout()

@@ -56,6 +56,7 @@ with open("config.json") as file:
 pattern_dirpath: str = config["hopfield"]["pattern_dir"]
 pm: float = config["hopfield"]["mutation_prob"]
 max_iterations: int = config["hopfield"]["max_iterations"]
+plot_boolean: bool = config["plot"]
 
 # Build pattern matrix, with [e1 e2 e3 ...], len(ei) = N
 letter_list, patterns = pattern_matrix(pattern_dirpath, N)
@@ -86,13 +87,29 @@ while not algo.is_over() and count < max_iterations:
     print('------------------')
     count += 1
 
+# Print ending motive
 if count >= max_iterations:
     print(f'Se ha alcanzado el {utils.string_with_color("límite de iteraciones", RED)} (probablemente por loop). Saliendo...')
-    exit()
+else:
+    spurious = True
+    for i in range(patterns.shape[1]):
+        if np.array_equal(s, patterns[:, i]):
+            print(f'El estado final {utils.string_with_color("coincide con " + letter_list[i], GREEN)} ({count} iter). Originalmente era {letter_list[query_num]}.')
+            spurious = False
+            break
+    if spurious:
+        print(f'El estado final {utils.string_with_color("es espúreo", RED)}. Debería coincidir con {letter_list[query_num]}.')
 
-for i in range(patterns.shape[1]):
-    if np.array_equal(s, patterns[:, i]):
-        print(f'El estado final {utils.string_with_color("coincide con " + letter_list[i], GREEN)} ({count} iter). Originalmente era {letter_list[query_num]}.')
-        exit()
+# Print energy values
+print(f'\nEnergy values: \n{algo.energy}')
 
-print(f'El estado final es {utils.string_with_color("espúreo", RED)}. Debería coincidir con {letter_list[query_num]}.')
+# If plot_boolean is true, generate plots
+if plot_boolean:
+    # Init plotter
+    utils.init_plotter()
+
+    # Plot energy = f(t)
+    utils.plot_values(range(len(algo.energy)), 'iteration', algo.energy, 'energy', sci_y=False, ticks=range(len(algo.energy)))
+
+    # Hold execution to show plots
+    utils.hold_execution()

@@ -35,6 +35,14 @@ class HopfieldPerceptron(object):
         self.w = np.dot(patterns, patterns.T) / patterns.shape[0]
         np.fill_diagonal(self.w, 0)
         self.s = [query]
+        self.energy = [self.energy_function(query)]
+
+    def energy_function(self, s):
+        h_sum = 0
+        for i in range(len(self.w)):
+            for j in range(i + 1, len(self.w)):
+                h_sum += self.w[i,j] * s[i] * s[j]
+        return -h_sum
 
     # Finish if last two elements are equal
     def is_over(self) -> bool:
@@ -43,4 +51,5 @@ class HopfieldPerceptron(object):
     def iterate(self) -> np.ndarray:
         aux: np.ndarray = np.sign(np.dot(self.w, self.s[-1]))
         self.s.append(aux + (aux == 0) * self.s[-1])
+        self.energy.append(self.energy_function(self.s[-1]))
         return self.s[-1]

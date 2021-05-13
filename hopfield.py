@@ -59,6 +59,11 @@ max_iterations: int = config["hopfield"]["max_iterations"]
 # Build pattern matrix, with [e1 e2 e3 ...], len(ei) = N
 letter_list, patterns = pattern_matrix(pattern_dirpath, N)
 
+# Calculate dot product between letters --> Closer to 0, more ortogonal
+for i in range(len(patterns[0])):
+    for j in range(i + 1, len(patterns[0])):
+        print(f'Producto interno entre {letter_list[i]} y {letter_list[j]}: {np.dot(patterns[:, i], patterns[:, j])}')
+
 # Get query pattern from available patterns
 query_num = random.randint(0, patterns.shape[1] - 1)
 query_pattern = get_mutated_pattern(patterns[:, query_num], pm)

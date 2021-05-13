@@ -48,6 +48,9 @@ exp_variance = pca.explained_variance_ratio_
 # Save PCA components
 components = pca.components_
 
+# Save PCA eigenvalues
+eigenvalues = pca.explained_variance_
+
 ################ PRINTING RESULTS ################
 
 print("First principal component --> If > 0, positive loads are more important here")
@@ -69,6 +72,8 @@ for h, load in zip(headers[1:], components[1]):
     print(f'{h}: {load}')
 
 print("\nVariance ratio", exp_variance)
+
+print("\nEigenvalues", eigenvalues)
 
 print("\nLoads for all components")
 for i, eigenvector in enumerate(components):

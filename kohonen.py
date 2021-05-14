@@ -88,9 +88,10 @@ def update_all_w(grid: [[p.SimplePerceptron]]):
             neuron.update_w()
 
 
-def get_corrected_eta(eta: float, distance: float, radius: float):
-    return eta
-    # return math.exp(-distance / radius) * eta
+def get_corrected_eta(eta: float, distance: float, radius: float, adjust: bool = False):
+    if not adjust:
+        return eta
+    return math.exp(-distance / radius) * eta
 
 
 # read config file
@@ -103,6 +104,7 @@ c: float = config["kohonen"]["c"]
 eta_init: float = config["kohonen"]["eta_init"]
 is_w0_random_init: bool = config["kohonen"]["w0_random_init"]
 normalize_data: bool = config["kohonen"]["normalize_data"]
+neigh_dist_adj: bool = config["kohonen"]["neighbour_dist_adj"]
 iterations: int = config["kohonen"]["kxk_iterations"] * k * k
 plot_boolean: bool = config["plot"]
 
@@ -131,7 +133,7 @@ for iteration in range(0, iterations):
 
         # train the corresponding neurons
         for (x, y, d) in pos_neighbours:
-            kohonen_grid[x][y].train(_data, get_corrected_eta(eta, d, r))
+            kohonen_grid[x][y].train(_data, get_corrected_eta(eta, d, r, neigh_dist_adj))
 
         # update all the w values as the iteration finished
         update_all_w(kohonen_grid)

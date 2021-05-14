@@ -139,10 +139,10 @@ def plot_two_components(pca_1, pca_2, comp_1, comp_2, var_labels, val_labels, sc
     else:
         plt.show(block=False)
 
-def plot_matrix(matrix, cmap='inferno', not_exp=False):
+def plot_matrix(matrix, cmap='inferno', not_exp=False, vmin=None, vmax=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
 
-    caxes = ax.matshow(matrix, interpolation='none', cmap=cmap)
+    caxes = ax.matshow(matrix, interpolation='none', cmap=cmap, vmin=vmin, vmax=vmax)
     plt.colorbar(caxes)
 
     notation = '{:0.1E}' if not_exp else '{:0.1f}'

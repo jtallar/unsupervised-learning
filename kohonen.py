@@ -55,7 +55,6 @@ def init_kohonen_grid(random_init: bool, data: np.ndarray) -> [[p.SimplePerceptr
 def eucledian_distance(vec_1: np.ndarray, vec_2: np.ndarray) -> float:
     return np.sqrt(np.sum((vec_1 - vec_2) ** 2))
 
-# TODO: Do same thing with correlation distance
 # gets the indexes of the most similar neuron given the data using eucledian distance
 def get_best_neuron_indexes(grid: [[p.SimplePerceptron]], data: np.ndarray) -> (int, int):
     # get the best neuron position
@@ -158,8 +157,6 @@ print('Match matrix countries: ')
 print('\n'.join('{}: {}'.format(*k) for k in enumerate(country_list_grid)))
 
 
-# TODO: Check if U matrix uses radius=1 (or final) for node neighbours
-# r = 1
 # U matrix 
 u_matrix_grid: [[int]] = np.zeros((k, k), dtype=float)
 for i, row in enumerate(kohonen_grid):

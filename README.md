@@ -41,10 +41,11 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
     - **epoch** indica la cantidad de épocas a analizar.
 - **kohonen** contiene las configuraciones de la red de Kohonen:
     - **k** indica el lado de la matriz de salida (la matriz será de k x k).
-    - **c** indica la rapidez de decrecimiento del radio, que estará como factor en un exponente negativo de e. A mayor valor de c, más rápido disminuirá el radio.
+    - **eta_init** indica el valor inicial a tomar de eta.
     - **w0_random_init** indica si se utilizan pesos iniciales aleatorios entre 0 y 1 (false) o si se toman muestras al azar para los mismos (true).
     - **kxk_iterations** indica el factor para calcular el número de épocas. Se realizarán kxk_iterations * k * k épocas.
-    - **noramlize_data** indica si, luego de estandarizar los datos de entrada, se los normaliza (true) o no (false).    
+    - **normalize_data** indica si, luego de estandarizar los datos de entrada, se los normaliza (true) o no (false).
+	- **neighbour_dist_adj** indica si se desea ajustar el eta según proximidad con la neurona ganadora (true) o se desea usar el mismo eta para todas las neuronas vecinas (false).
 - **hopfield** contiene las configuraciones de la red de Hopfield:
     - **pattern_dir** indica el directorio donde se encuentran los archivos con los patrones de 5x5 conocidos.
     - **mutation_prob** indica la probabilidad de mutar para cada píxel del patrón seleccionado al azar.
@@ -63,11 +64,12 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
 	},
 
 	"kohonen": {
-		"k": 5,
-		"c": 0.001,
+		"k": 4,
+		"eta_init": 0.5,
 		"w0_random_init": false,
-		"kxk_iterations": 50,
-		"normalize_data": true
+		"kxk_iterations": 300,
+		"normalize_data": true,
+		"neighbour_dist_adj": true
 	},
 
 	"hopfield": {
@@ -81,5 +83,36 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
 
 ```
 
+### Ejemplo 2
+```json
+{
+	"data_file": "europe.csv",
+
+	"oja": {
+		"eta": 0.02,
+		"epoch": 100
+	},
+
+	"kohonen": {
+		"k": 3,
+		"eta_init": 0.5,
+		"w0_random_init": false,
+		"kxk_iterations": 300,
+		"normalize_data": true,
+		"neighbour_dist_adj": true
+	},
+
+	"hopfield": {
+		"pattern_dir": "known_patterns",
+		"mutation_prob": 0.5,
+		"max_iterations": 20
+	},
+
+	"plot": true
+}
+
+```
+
 ## Presentación
 Link a la presentación completa: 
+https://docs.google.com/presentation/d/1bkWAAJODj1_GEiNs0r19yur51Yds5wnW4Lkom7KuZq4/edit#slide=id.p1

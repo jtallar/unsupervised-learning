@@ -8,12 +8,11 @@
 
 	"kohonen": {
 		"k": 4,
-		"c": 0.001,
 		"eta_init": 0.5,
 		"w0_random_init": false,
-		"kxk_iterations": 200,
-		"normalize_data": false,
-		"neighbour_dist_adj": false
+		"kxk_iterations": 300,
+		"normalize_data": true,
+		"neighbour_dist_adj": true
 	},
 
 	"hopfield": {

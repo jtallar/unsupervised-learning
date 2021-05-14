@@ -99,7 +99,6 @@ with open("config.json") as file:
 
 data_filepath: str = config["data_file"]
 k: int = config["kohonen"]["k"]
-c: float = config["kohonen"]["c"]
 eta_init: float = config["kohonen"]["eta_init"]
 is_w0_random_init: bool = config["kohonen"]["w0_random_init"]
 normalize_data: bool = config["kohonen"]["normalize_data"]

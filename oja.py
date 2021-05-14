@@ -51,3 +51,13 @@ library_pca = pca.components_[0]
 
 print("Neuron PCA: " + str(neuron_pca))
 print("Library PCA: " + str(library_pca))
+
+# calculate ecm between oja and library in both directions
+ecm_sum = 0
+ecm_sum_inv = 0
+for i in range(len(neuron_pca)):
+    ecm_sum += (neuron_pca[i] - library_pca[i]) ** 2
+    ecm_sum_inv += (neuron_pca[i] + library_pca[i]) ** 2
+
+ecm = ecm_sum / len(neuron_pca) if ecm_sum < ecm_sum_inv else ecm_sum_inv / len(neuron_pca)
+print(f'ECM between neuron and library: {ecm:.2E}')

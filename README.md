@@ -59,8 +59,8 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
 	"data_file": "europe.csv",
 
 	"oja": {
-		"eta": 0.02,
-		"epoch": 500
+		"eta": 0.01,
+		"epoch": 100
 	},
 
 	"kohonen": {
@@ -74,7 +74,7 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
 
 	"hopfield": {
 		"pattern_dir": "known_patterns",
-		"mutation_prob": 0.1,
+		"mutation_prob": 0.2,
 		"max_iterations": 20
 	},
 
@@ -89,8 +89,8 @@ Todas las configuraciones de ejecución se establecen en el archivo `config.json
 	"data_file": "europe.csv",
 
 	"oja": {
-		"eta": 0.02,
-		"epoch": 100
+		"eta": 0.01,
+		"epoch": 30
 	},
 
 	"kohonen": {

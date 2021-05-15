@@ -123,6 +123,7 @@ for iteration in range(0, iterations):
     # calculate eta and r
     # eta = 1 / (iteration + 1)
     eta = (iterations - iteration) * eta_init / iterations
+    # eta = eta_init if iteration < 800 else (iterations - iteration + 800) * eta_init / iterations
     # r = 1 + k * math.exp(-c * iteration)
     r = 1 + math.floor((iterations - iteration) * k / iterations) # initial radius is 1+k
 

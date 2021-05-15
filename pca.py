@@ -97,6 +97,14 @@ if plot_boolean:
     # Plot horizontal bars with PC1 for each country
     utils.plot_horiz_bar(y, pc1, 'PC1')
 
+    # Plot sorted horizontal bars with PC1 for each country
+    pc1_tuple_list = [(lab, val) for lab, val in sorted(zip(y, pc1), key=lambda tup: tup[1])]
+    lab, val = [], []
+    for l,v in pc1_tuple_list:
+        lab.append(l)
+        val.append(v)
+    utils.plot_horiz_bar(lab, val, 'PC1')
+
     # Plot PC2 = f(PC1)
     utils.plot_two_components(pc1, pc2, components[0, :], components[1, :], headers[1:], y, scale=True)
     utils.plot_two_components(pc1, pc2, components[0, :], components[1, :], headers[1:], y, scale=False)

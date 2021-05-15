@@ -2,8 +2,8 @@
 	"data_file": "europe.csv",
 
 	"oja": {
-		"eta": 0.02,
-		"epoch": 500
+		"eta": 0.01,
+		"epoch": 100
 	},
 
 	"kohonen": {

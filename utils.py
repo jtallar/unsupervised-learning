@@ -64,7 +64,7 @@ def plot_boxplot(values, labels, y_label, save_name=None):
     else:
         plt.show(block=False)
 
-def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, save_name=None, ticks=None):
+def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, sci_y=True, min_val=None, max_val=None, log=False, save_name=None, ticks=None):
     fig, ax = plt.subplots(figsize=(12, 10))  # Create a figure containing a single axes.
     ax.plot(x_values, y_values, marker='o', markersize=3)  # Plot some data on the axes
     ax.set_xlabel(x_label)
@@ -74,11 +74,14 @@ def plot_values(x_values, x_label, y_values, y_label, precision=2, sci_x=False, 
         ax.set_xlim([min_val, max_val])
         ax.set_ylim([min_val, max_val])
 
+    if log:
+        ax.set_yscale('log')
+
     if sci_x:
-        ax.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+        if not log: ax.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
         ax.xaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
     if sci_y:
-        ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
+        if not log: ax.ticklabel_format(axis="y", style="sci", scilimits=(0,0))
         ax.yaxis.set_major_formatter(MathTextSciFormatter(f'%1.{precision}e'))
 
     if ticks:

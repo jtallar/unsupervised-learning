@@ -23,6 +23,10 @@ def scaled_data(filepath: str, normalize: bool = False):
 
 # w0 for neuron initialization with dataset
 def w0_data_init(data: np.ndarray) -> np.ndarray:
+    # w0 = []
+    # for i in range(len(data[0])):
+    #     w0.append(data[random.randint(0, len(data) - 1), i])
+    # return np.array(w0)
     return data[random.randint(0, len(data) - 1)]
 
 

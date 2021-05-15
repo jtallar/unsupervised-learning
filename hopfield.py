@@ -94,7 +94,8 @@ else:
     spurious = True
     for i in range(patterns.shape[1]):
         if np.array_equal(s, patterns[:, i]):
-            print(f'El estado final {utils.string_with_color("coincide con " + letter_list[i], GREEN)} ({count} iter). Originalmente era {letter_list[query_num]}.')
+            (correct, color) = ("es correcto", GREEN) if letter_list[i] == letter_list[query_num] else ("es incorrecto", RED)
+            print(f'El estado final {utils.string_with_color(correct, color)}. Coincide con {letter_list[i]} ({count} iter) y era {letter_list[query_num]}.')
             spurious = False
             break
     if spurious:
